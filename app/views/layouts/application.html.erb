@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>UserAuthentication</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css"> -->
+  </head>
+
+  <body>
+
+
+
+    <%= flash[:error] %>
+
+    <nav>
+      <% if @current_user %>
+        <%= link_to "Log Out", "/logout", method: :delete %>
+        <%= link_to @current_user.username, user_path(@current_user) %>
+        <%= link_to "Edit Profile", edit_user_path(@current_user) %>
+      <% else %>
+        <%= link_to "Login", "/login" %>
+        <%= link_to "Sign Up", "/users/new" %>
+      <% end %>
+    </nav>
+    <%= yield %>
+  </body>
+</html>

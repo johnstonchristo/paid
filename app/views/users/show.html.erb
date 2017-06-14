@@ -1,14 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
 
-<p>
-  <strong>Password digest:</strong>
-  <%= @user.password_digest %>
-</p>
+
+<a href="/transactions/new" class="newCode">new code</a>
+
+
+<div id = "outstanding">
+<ul id="outstandingPayments">
+<li>outstanding payments go here</li>
+</ul>
+</div>
+
+<div id = "received">
+
+<ul id = "receivedPayments">
+
+<li>received payments go here</li>
+</ul>
+</div>
+
+
+
+
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

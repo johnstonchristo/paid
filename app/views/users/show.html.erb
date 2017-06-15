@@ -1,12 +1,27 @@
 <p id="notice"><%= notice %></p>
 
-
+<form>
+<div class = "row">
+  <label for="exampleRecipientInput">Select your financial institution</label>
+    <select id="bankList"></select>
+    <!-- <div class="six columns"> -->
+     <label for="exampleEmailInput">Client ID</label>
+     <input type="text" placeholder="client id" id="clientId">
+     <label for="exampleEmailInput">Password</label>
+     <input type="text" placeholder="password" id="password">
+   <!-- </div> -->
+  </div>
+</div>
+</form>
 
 <!-- <a href="/transactions/new" class="newCode">new code</a> -->
 
 
 
 <a class="button button-primary" href="/transactions/new">New Code</a>
+
+<a class="button button-primary" id="getUserDetails">Get Latest Transactions</a>
+
 
 <h2>Still To Receive</h2>
 
@@ -104,7 +119,10 @@
 <table class="u-full-width" id="transactions">
   <thead>
     <tr>
-  <th>Name</th>
+  <th>token</th>
+  <th>date</th>
+  <th>amount</th>
+
 
     </tr>
   </thead>

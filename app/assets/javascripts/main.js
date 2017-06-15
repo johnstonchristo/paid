@@ -1,11 +1,10 @@
 var basiqUrl = "https://au-api.basiq.io/";
 
 var transactionArray = [];
-var transactionCode = "Deep relief lotion NSW AUS";
+var transactionToken = "318ca78f2855";
 var resultObject;
-var transactionIdArray = [<%=@transactions%>];
-var userTransactionArray = ["318ca78f2855", "53c8f5489e45"];
-
+var transactionIdArray = ["318ca78f2855", "53c8f5489e45"];
+var userTransactionArray = ["318ca78f2855", "53c8f5489e45", "53c8f5489e46"];
 var match;
 // // // // // // // // // // // // // // // // // //
 // Below obtains latest bank list
@@ -125,10 +124,11 @@ var transactionHistory = function(connectionInfo, token) {
   }).done(function(response) {
     transactionList = response;
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < transactionList.data.length; i++) {
       var transaction = transactionList.data[i].id;
       individualTransaction(transaction, connectionInfo, token);
     }
+    console.log(transactionList);
   });
 };
 
@@ -157,23 +157,37 @@ var individualTransaction = function(transaction, connectionInfo, token) {
     amount = singleTransaction.amount;
     description = singleTransaction.description;
     transactionArray.push(singleTransaction);
-    console.log(description);
+    // console.log(transactionArray);
   });
 };
 
 // // // // // // // // // // // // // // // // // //
-// Below waits until ajax requests have all loaded
+//Below ajax request pull in transaction data from Ruby
+// // // // // // // // // // // // // // // // // //
+
+$.ajax({
+  url: "http://localhost:3000/transactions",
+  dataType: "JSON"
+}).done(function(data) {
+  for (var i = 0; i < data.length; i++) {
+    userTransactionArray.push(data[i].token);
+  }
+});
+
+// // // // // // // // // // // // // // // // // //
+// Below waits until ajax requests have all loaded and then searches for the token in the entire array of trades.
 // // // // // // // // // // // // // // // // // //
 
 $(document).ajaxStop(function() {
-  function search(nameKey, myArray) {
-    for (var i = 0; i < myArray.length; i++) {
-      if (myArray[i].description === nameKey) {
-        return myArray[i];
+  function search(transactionToken, transactionArray) {
+    for (var i = 0; i < transactionArray.length; i++) {
+      if (transactionArray[i].description === transactionToken) {
+        // transactionIdArray.push(transactionArray[i].id);
+        // return transactionArray[i];
       }
     }
   }
-  var resultObject = search(transactionCode, transactionArray);
+  var resultObject = search(transactionToken, transactionArray);
   console.log(resultObject);
 });
 
@@ -181,20 +195,8 @@ $(document).ajaxStop(function() {
 // Below appends transaction id's to page
 // // // // // // // // // // // // // // // // // //
 
-// $(document).ajaxStop(function() {
-//   for (var i = 0; i < transactionArray.length; i++) {
-//     var transactionId = transactionArray[i].id;
-//
-//     var transactionList = document.getElementById("transactions");
-//     var newListItem = document.createElement("tr");
-//     newListItem.appendChild(document.createTextNode(transactionId));
-//
-//     transactionList.appendChild(newListItem);
-//     transactionIdArray.push(transactionId);
-//   }
-//   // console.log(transactionIdArray);
-// });
 var results = [];
+
 $(document).ajaxStop(function() {
   var arr = transactionIdArray.concat(userTransactionArray);
   var sorted_arr = arr.sort();
@@ -215,5 +217,7 @@ $(document).ajaxStop(function() {
 });
 
 //
-// // bankListBasiq();
-submitUserDetails();
+bankListBasiq();
+// submitUserDetails();
+
+// document.getElementById("getUserDetails").onclick = submitUserDetails();

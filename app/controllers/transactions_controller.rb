@@ -5,7 +5,17 @@ class TransactionsController < ApplicationController
   # GET /transactions.json
   def index
     @transactions = Transaction.all
+
+
+    respond_to do |format|
+        format.html
+        format.json
+      end
+
   end
+
+
+
 
   # GET /transactions/1
   # GET /transactions/1.json

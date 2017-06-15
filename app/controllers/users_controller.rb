@@ -6,7 +6,9 @@ class UsersController < ApplicationController
   end
 
   def show
+    id = params["id"]
     @user = User.find_by(id: params["id"])
+    @transactions = Transaction.where(user_id: @current_user.id)
   end
 
   def new

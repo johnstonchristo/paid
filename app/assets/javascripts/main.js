@@ -1,8 +1,12 @@
 var basiqUrl = "https://au-api.basiq.io/";
 
 var transactionArray = [];
-var transactionCode = "";
+var transactionCode = "Deep relief lotion NSW AUS";
+var resultObject;
+var transactionIdArray = [<%=@transactions%>];
+var userTransactionArray = ["318ca78f2855", "53c8f5489e45"];
 
+var match;
 // // // // // // // // // // // // // // // // // //
 // Below obtains latest bank list
 // // // // // // // // // // // // // // // // // //
@@ -121,7 +125,7 @@ var transactionHistory = function(connectionInfo, token) {
   }).done(function(response) {
     transactionList = response;
 
-    for (var i = 0; i < transactionList.data.length; i++) {
+    for (var i = 0; i < 10; i++) {
       var transaction = transactionList.data[i].id;
       individualTransaction(transaction, connectionInfo, token);
     }
@@ -153,6 +157,7 @@ var individualTransaction = function(transaction, connectionInfo, token) {
     amount = singleTransaction.amount;
     description = singleTransaction.description;
     transactionArray.push(singleTransaction);
+    console.log(description);
   });
 };
 
@@ -171,6 +176,44 @@ $(document).ajaxStop(function() {
   var resultObject = search(transactionCode, transactionArray);
   console.log(resultObject);
 });
+
+// // // // // // // // // // // // // // // // // //
+// Below appends transaction id's to page
+// // // // // // // // // // // // // // // // // //
+
+// $(document).ajaxStop(function() {
+//   for (var i = 0; i < transactionArray.length; i++) {
+//     var transactionId = transactionArray[i].id;
+//
+//     var transactionList = document.getElementById("transactions");
+//     var newListItem = document.createElement("tr");
+//     newListItem.appendChild(document.createTextNode(transactionId));
+//
+//     transactionList.appendChild(newListItem);
+//     transactionIdArray.push(transactionId);
+//   }
+//   // console.log(transactionIdArray);
+// });
+var results = [];
+$(document).ajaxStop(function() {
+  var arr = transactionIdArray.concat(userTransactionArray);
+  var sorted_arr = arr.sort();
+  for (var i = 0; i < arr.length - 1; i++) {
+    if (sorted_arr[i + 1] == sorted_arr[i]) {
+      results.push(sorted_arr[i]);
+      var transactionId = sorted_arr[i];
+
+      var transactionList = document.getElementById("transactions");
+      var newListItem = document.createElement("tr");
+      newListItem.appendChild(document.createTextNode(transactionId));
+
+      transactionList.appendChild(newListItem);
+      transactionIdArray.push(transactionId);
+    }
+  }
+  console.log(results);
+});
+
 //
 // // bankListBasiq();
 submitUserDetails();

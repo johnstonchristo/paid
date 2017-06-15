@@ -16,9 +16,32 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
 
-    range = [('0'..'9'),('A'..'Z'),('a'..'z')].map{ |i| i.to_a }.flatten(0...10).
+
+  end
+
+def create
+transaction = Transaction.new(transaction_params)
+transaction.token = SecureRandom.hex(6)
+transaction.user_id = @current_user.id
+transaction.save
+redirect_to "/users/#{@current_user.id}"
+
+
+end
 
 
 
+private
+
+def transaction_params
+  params.require(:transaction).permit(:token, :description)
+end
+
+  def authorise
+    unless @current_user
+  flash[:error] = "You need to be logged in for that"
+  redirect_to "/login"
+
+    end
   end
 end

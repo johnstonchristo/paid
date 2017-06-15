@@ -23,4 +23,29 @@
   </p>
 
   <%= f.submit %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Token</th>
+        <th>Description</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @transactions.each do |transaction| %>
+        <tr>
+          <td><%= transaction.token %></td>
+          <td><%= transaction.description %></td>
+        </tr>
+      <% end %>
+    </tbody>
+
+
+
+
+
+
+
 <% end %>

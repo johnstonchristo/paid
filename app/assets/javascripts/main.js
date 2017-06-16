@@ -203,16 +203,16 @@ $(document).ajaxStop(function() {
           var transactionList = document.getElementById("transactions");
           var newListItem = document.createElement("tr");
           newListItem.appendChild(
-            document.createTextNode(matchingTransactionArray.id)
+            document.createTextNode(matchingTransactionArray[j].id)
           );
 
           transactionList.appendChild(newListItem);
         }
       }
     }
-    // return matchingTransactionArray;
+    return matchingTransactionArray;
   }
-  search(transactionToken, transactionArray);
+  var resultObject = search(transactionToken, transactionArray);
   // console.log(matchingTrasnactionArray)
 });
 
@@ -240,8 +240,7 @@ var results = [];
 //   }
 //   console.log(results);
 // });
-
-//
+bankListBasiq();
 submitUserDetails();
 
 // document.getElementById("getUserDetails").onclick = submitUserDetails();

@@ -44,7 +44,7 @@ end
 private
 
 def transaction_params
-  params.require(:transaction).permit(:token, :description)
+  params.require(:transaction).permit(:token, :description, :amount)
 end
 
   def authorise
